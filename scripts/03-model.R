@@ -12,6 +12,7 @@ library(readr)
 
 #### Read data ####
 analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
+grouped_data <- read_csv("data/analysis_data/grouped_data.csv")
 
 ### Model data ####
 # Assuming 'analysis_data' contains columns: 'Season', 'TEAM', 'GP', 'W', 'L', '3PM', '3PA', '3P%'
@@ -28,8 +29,25 @@ nba_model <- stan_glm(
   seed = 853
 )
 
-#### Save model ####
+# Cumulative model based on each Team
+# Season-wise model
+nba_model2 <- stan_glm(
+  formula = Average_Wins ~ Average_3PM,
+  data = grouped_data,
+  family = gaussian(),
+  prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  prior_aux = exponential(rate = 1, autoscale = TRUE),
+  seed = 853
+)
+
+#### Save models ####
 saveRDS(
   nba_model,
   file = "model/nba_model.rds"
+)
+
+saveRDS(
+  nba_model2,
+  file = "model/nba_model_team.rds"
 )
