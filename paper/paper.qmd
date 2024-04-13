@@ -6,7 +6,7 @@ author:
 thanks: "Code and data are available at: https://github.com/aryamansuri/NBA-3PointAnalysis"
 date: today
 date-format: long
-abstract: "In recent years, the three-point shot has emerged as a pivotal aspect of basketball strategy in the NBA. This study uses statistical modelling tools to analyze the association between three-point shooting and winning in the current NBA. Using season-wise NBA statistics, I examine the cumulative effect of teams' three-point shooting on their overall victory total. This study quantifies this link using Generalized Linear Models, which take into account parameters such as the amount of three-point shots made and other pertinent variables. The findings shed light on the importance of three-point shooting as an NBA success factor. I examine the ramifications of the findings for team strategy, player development, and basketball analytics. Additionally, ethical concerns and study limitations are addressed."
+abstract: "In recent years, the three-point shot has emerged as a pivotal aspect of basketball strategy in the NBA. This study uses statistical modelling tools to analyze the association between three-point shooting and winning in the current NBA. Using season-wise NBA statistics, I examine the cumulative effect of teams' three-point shooting on their overall victory total. This study quantifies this link using Generalized Linear Models, which take into account parameters such as the amount of three-point shots made and other pertinent variables. The findings exemplify the importance of three-point shooting as an NBA success factor. I examine the ramifications of the findings for team strategy, player development, and basketball analytics. Additionally, ethical concerns and study limitations are addressed."
 format: pdf
 toc: true
 number-sections: true
@@ -55,11 +55,11 @@ I begin by exploring the underlying data, which will provide insights into the v
 
 # Data
 
-In this study, I utilized data sourced from the NBA's official database (@cite-NBA) to examine the relationship between various team performance metrics and their corresponding winning percentages throughout the regular season. My analysis aims to uncover insights into the factors contributing to team success in the NBA, specifically 3 point shooting. The NBA's database serves as a comprehensive repository of statistical information on teams, players, and games, providing valuable insights into the dynamics of professional basketball. Below, I provide a detailed overview of the data collection process, cleaning procedures, and subsequent analysis.
+In this study, I utilized data sourced from the NBA's official database (@cite-NBA) to examine the relationship between various team performance metrics and their corresponding winning percentages throughout the regular season. My analysis aims to uncover insights into the factors contributing to team success in the NBA, specifically 3 point shooting. The NBA's database serves as a complete repository of statistical information on teams, players, and games, providing valuable insights into the dynamics of professional basketball. Below, I provide a detailed overview of the data collection process, cleaning procedures, and subsequent analysis.
 
 ## Data Collection
 
-All raw data utilized in this study was collected from the official NBA database (@cite-NBA), which aggregates comprehensive statistics on team performance, player performances, and game outcomes throughout the league's history. Since this study only focuses on the modern NBA, which is defined as the era from the 2014-15 season onward, the season wise data had to be individually downloaded and combined. Additionally, since the 2019-20 season was shortened due to the COVID-19 outbreak and an equal number of games was not played by all teams, we will not be considering that season for the sake of this study. This data is then stored in our raw_data2.xlsx file using @cite-writexl. This dataset comprises a wide array of variables, including team statistics such as points scored, rebounds, assists, turnovers, and various other performance metrics recorded over multiple seasons.
+All raw data utilized in this study was collected from the official NBA database (@cite-NBA), which aggregates all statistics on team performance, player performances, and game outcomes throughout the league's history. Since this study only focuses on the modern NBA, which is defined as the era from the 2014-15 season onward, the season wise data had to be individually downloaded and combined. Additionally, since the 2019-20 season was shortened due to the COVID-19 outbreak and an equal number of games was not played by all teams, we will not be considering that season for the sake of this study. This data is then stored in our raw_data2.xlsx file using @cite-writexl. This dataset comprises a wide array of variables, including team statistics such as points scored, rebounds, assists, turnovers, and various other performance metrics recorded over multiple seasons.
 
 ## Data Cleaning
 
@@ -89,7 +89,7 @@ In this study, our focus is solely on win counts and three-point statistics. Wit
 
 While the measurement of this model's data can be criticized by NBA fans , we've deliberately opted for **3PM** over **3PA** and **3P%** for several reasons. **3PM** serves as a robust metric, capturing a team's volume of successful three-point shots with reasonable efficiency. Unlike **3PA**, which might bias the model towards teams overly reliant on three-point attempts irrespective of their success rate, **3PM** provides a balanced representation of both volume and efficiency in three-point shooting. Similarly, **3P%** could skew the analysis towards teams with lower volumes of three-point attempts, overlooking the broader spectrum of team performance.
 
-By prioritizing **3PM** alongside Wins, our model aims to uncover nuanced insights into the impact of three-point scoring on overall team success while mitigating potential biases associated with alternative metrics. This strategic selection ensures a comprehensive exploration of the relationship between three-point performance and winning outcomes in NBA games.
+By prioritizing **3PM** alongside Wins, our model aims to uncover nuanced insights into the impact of three-point scoring on overall team success while mitigating potential biases associated with alternative metrics. This strategic selection ensures a throrough exploration of the relationship between three-point performance and winning outcomes in NBA games.
 
 # Model
 
@@ -191,7 +191,53 @@ sorted_table <- a %>%
 # Display the sorted table
 kable(sorted_table)
 ```
+```{r}
+#| echo: false
+#| eval: true
+#| label: fig-3
+#| fig-cap: "Graph showing the average 3 point shots made per game across all the seasons"
+#| warning: false
 
+team_colors <- c(
+  "Atlanta Hawks" = "#E03A3E",
+  "Boston Celtics" = "#007A33",
+  "Brooklyn Nets" = "#000000",
+  "Charlotte Hornets" = "#00788C",
+  "Chicago Bulls" = "#CE1141",
+  "Cleveland Cavaliers" = "#860038",
+  "Dallas Mavericks" = "#00538C",
+  "Denver Nuggets" = "#0E2240",
+  "Detroit Pistons" = "#C8102E",
+  "Golden State Warriors" = "#1D428A",
+  "Houston Rockets" = "#CE1141",
+  "Indiana Pacers" = "#002D62",
+  "LA Clippers" = "#C8102E",
+  "Los Angeles Lakers" = "#552583",
+  "Memphis Grizzlies" = "#5D76A9",
+  "Miami Heat" = "#98002E",
+  "Milwaukee Bucks" = "#00471B",
+  "Minnesota Timberwolves" = "#0C2340",
+  "New Orleans Pelicans" = "#0C2340",
+  "New York Knicks" = "#006BB6",
+  "Oklahoma City Thunder" = "#007AC1",
+  "Orlando Magic" = "#0077C0",
+  "Philadelphia 76ers" = "#006BB6",
+  "Phoenix Suns" = "#1D1160",
+  "Portland Trail Blazers" = "#E03A3E",
+  "Sacramento Kings" = "#5A2D81",
+  "San Antonio Spurs" = "#C4CED4",
+  "Toronto Raptors" = "#CE1141",
+  "Utah Jazz" = "#002B5C",
+  "Washington Wizards" = "#002B5C"
+)
+ggplot(grouped_data, aes(x = Average_3PM, y = reorder(TEAM, Average_3PM), fill = TEAM)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = round(Average_3PM, 1)), hjust = 1.2, size = 3, color = "black") +
+  labs(x = "Average 3-Pointers Made", y = "Team") +
+  scale_fill_manual(values = team_colors) +
+  theme(legend.position = "none")
+```
+@fig-3 shows the average 3 point shots made per game across the 8 seasons that are involved in our study.
 ```{r}
 #| echo: false
 #| label: fig-1
@@ -221,10 +267,10 @@ ggplot(grouped_data, aes(x = Average_3PM, y = Average_Wins)) +
 
 # Discussion
 
-In this study, we aimed to investigate the relationship between three-point shooting efficiency and team success in the NBA. Our analysis involved a comprehensive examination of season-wise NBA statistics, focusing on variables such as three-pointers made (3PM) and team wins (W). We employed advanced statistical techniques, including data cleaning, correlation analysis, and regression modeling, to uncover insights into the impact of three-point shooting on team performance. By analyzing the data and modeling the relationship between 3PM and W, we sought to shed light on the significance of three-point shooting as a predictor of NBA team success.
+In this study, we aimed to investigate the relationship between three-point shooting efficiency and team success in the NBA. Our analysis involved an thorough examination of season-wise NBA statistics, focusing on variables such as three-pointers made (3PM) and team wins (W). We employed advanced statistical techniques, including data cleaning, correlation analysis, and regression modeling, to uncover insights into the impact of three-point shooting on team performance. By analyzing the data and modeling the relationship between 3PM and W, we sought to show the significance of three-point shooting as a predictor of NBA team success.
 
-Our analysis revealed a compelling association between three-point shooting proficiency and team success in the NBA. We found that teams with higher rates of three-pointers made per game tended to achieve more wins over the course of the regular season. This suggests that three-point shooting plays a crucial role in determining the outcome of NBA games, with proficient long-range shooters contributing significantly to their team's overall success. These findings underscore the strategic importance of three-point shooting in modern basketball and highlight its impact on team performance.
-Additionally, our analysis uncovered nuanced insights into the dynamics of three-point shooting and team success. We observed variations in the relationship between 3PM and W across different teams and seasons, indicating that the impact of three-point shooting may vary based on contextual factors such as team composition, playing style, and opponent strategies. Furthermore, our findings suggest that while three-point shooting is a significant predictor of team success, it is not the sole determinant, with other factors such as defense, rebounding, and overall offensive efficiency also playing crucial roles in determining game outcomes.
+Our analysis revealed a compelling association between three-point shooting proficiency and team success in the NBA. We found that teams with higher rates of three-pointers made per game tended to achieve more wins over the course of the regular season. This suggests that three-point shooting plays a key role in determining the outcome of NBA games, with proficient long-range shooters contributing significantly to their team's overall success. These findings underscore the strategic importance of three-point shooting in modern basketball and highlight its impact on team performance.
+Additionally, our analysis uncovered nuanced insights into the dynamics of three-point shooting and team success. We observed variations in the relationship between 3PM and W across different teams and seasons, indicating that the impact of three-point shooting may vary based on contextual factors such as team composition, playing style, and opponent strategies. Furthermore, our findings suggest that while three-point shooting is a significant predictor of team success, it is not the sole determinant, with other factors such as defense, rebounding, and overall offensive efficiency also playing pivotal roles in determining game outcomes.
 
 ## Weaknesses
 
@@ -240,13 +286,13 @@ In essence, while the three-point shot remains a potent weapon in the modern NBA
 
 ## Future Research
 
-Looking ahead, there are plenty of opportunities for future research to build upon our discoveries and tackle the limitations of our study. One promising avenue is to delve deeper into the data by analyzing individual player-level statistics. This approach could help us better grasp how specific players contribute to their team's success, providing a more nuanced understanding of the role of each player in three-point shooting dynamics.
+Looking ahead, there are plenty of opportunities for future research to build upon our discoveries and tackle the limitations of our study. One promising avenue is to look deeper into the data by analyzing individual player-level statistics. This approach could help us better grasp how specific players contribute to their team's success, providing a more nuanced understanding of the role of each player in three-point shooting dynamics.
 
 Moreover, conducting longitudinal studies that span multiple seasons could offer valuable insights into the evolving trends and patterns of three-point shooting in the NBA. By tracking team performance over time, researchers could uncover long-term dynamics and factors that influence the effectiveness of three-point strategies.
 
 Additionally, qualitative research methods, such as interviews with players and coaches, present an opportunity to gain unique perspectives on the strategic significance of three-point shooting. Engaging directly with those involved in the game could offer valuable insights into the decision-making processes and team dynamics surrounding three-point strategies.
 
-By exploring these avenues of inquiry, future research has the potential to deepen our understanding of the intricate relationship between three-point shooting and team success in the NBA, ultimately contributing to advancements in basketball analytics and strategy.
+By exploring these avenues of inquiry, future research has the potential to deepen our understanding of the intricate relationship between three-point shooting and team success in the NBA, contributing to advancements in basketball analytics and strategy.
 
 # References
 
