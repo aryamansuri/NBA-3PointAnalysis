@@ -8,15 +8,16 @@ This paper analyzes data from nba.com to determine if a team's increase in 3 poi
 
 The repo is structured as:
 
--   `data` contains the data sources used in analysis including the raw data. Additional information about the data can be found in other/datasheet
--   `model` contains the Bayesian Generalized Linear model
--   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
+-   `data` contains the data sources used in analysis including the raw data. Additional information about the data can be found in `other/datasheet`.
+-   `model` contains the Bayesian Generalized Linear model.
+-   `other` contains the sketch of the dataset and graph. This also contains the datasheet and the chat history for the LLM usage.
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
 -   `scripts` contains the R scripts used to simulate, download, clean and test data and build the model.
 
 
 ## Statement on LLM usage
 
-Parts of the datasheet were written using ChatGPT 3.5 and the entire chat history can be found in other/llm/usage.txt
+Parts of the datasheet were written using ChatGPT 3.5 and the entire chat history can be found in `other/llm/usage.txt`
 
 ## How to Run
 
