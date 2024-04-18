@@ -23,8 +23,8 @@ grouped_data <- analysis_data %>%
     Total_Wins = sum(W),
     Total_3PM = sum(`3PM`),
     Total_3PA = sum(`3PA`),
-    Average_Wins = mean(W),
-    Average_3PM = mean(`3PM`)
+    Average_Wins = round(mean(W), 2),
+    Average_3PM = round(mean(`3PM`), 2)
   )
 # Write cleaned data to CSV
 write.csv(analysis_data, "data/analysis_data/analysis_data.csv", row.names = FALSE)
