@@ -49,7 +49,7 @@ The three point line was introduced in the NBA in the 1979-80 season (@cite-thre
 
 This paper explores the association between three-point shooting measures and win probability using advanced statistical techniques after analyzing season-wise data. The findings highlight the importance of three-point shooting eﬀiciency as a predictor of team performance in modern basketball and how important it is to be a good three point shooting team for success in today’s game.
 
-Understanding this link has ramifications for numerous parties, including coaches, players, analysts, and team administration. This study adds to the ongoing debate in the NBA about strategic decision-making and player development by explaining the significance of three-point shooting in deciding game outcomes (@cite-debate). Essentially, the question “Does three point shooting actually lead to team success?”, is being asked.
+Understanding this link has ramifications for numerous parties, including coaches, players, analysts, and team administration. This study adds to the ongoing debate in the NBA about strategic decision-making and player development by explaining the significance of three-point shooting in deciding game outcomes (@cite-debate). Essentially, the estmand of the paper is to see if an increase in a team's three point shooting ability contributes to an increase in the team's success, measured by wins.
 
 This paper begins by exploring the underlying data in @sec-data, which provides insights into the variables and metrics used in the analyses. Following that, the complexities of the modelling approach are explained in @sec-model, including describing the reasoning behind the statistical techniques and justifying the methodology. The results of the analysis are discussed in @sec-results, diving into the empirical findings and their implications for understanding the relationship between three-point shooting eﬀiciency and NBA team success. @sec-discuss contextualizes the findings of this paper within the larger view of basketball analytics,emphasizing significant takeaways. Finally, the findings and proposed paths for future research are summarized in @sec-discuss2.
 
@@ -58,7 +58,7 @@ This paper begins by exploring the underlying data in @sec-data, which provides 
 
 This study, utilizes  data sourced from the NBA’s official database (@cite-NBA) to examine the relationship between various team performance metrics and their corresponding winning percentages throughout the regular season. The analysis aims to uncover insights into the factors contributing to team success in the NBA, specifically 3 point shooting. The NBA’s database serves as a complete repository of statistical information on teams, players, and games, providing valuable insights into the dynamics of professional basketball. The below sections provide  a detailed overview of the data collection process, cleaning procedures, and subsequent analysis.
 
-## Data Collection
+## Data Sources
 
 All raw data utilized in this study was collected from the oﬀicial NBA database  (@cite-NBA), which aggregates statistics on team performance, player performances, and game outcomes throughout the league’s history. Since this study only focuses on the modern NBA, which is defined as the era from the 2014-15 season onward (@cite-modernera), the season wise data had to be individually downloaded and combined. Additionally, since the 2019-20 season was shortened due to the COVID-19 outbreak and an equal number of games was not played by all teams (@cite-shortseason), data from that season is excluded from this study to ensure consistency. The aggregated  dataset is then stored as the raw_data2.xlsx file using the *writexl* package (@cite-writexl). This dataset comprises data from 30 teams over 8 seasons, including team statistics such as points scored, rebounds, assists, turnovers, and various other performance metrics recorded over multiple seasons.
 
@@ -74,7 +74,7 @@ With the cleaned dataset in hand as seen in @tbl-1, I conducted a rigorous analy
 #| echo: false
 #| eval: true
 #| label: tbl-1
-#| tbl-cap: "Overview of the cleaned dataset"
+#| tbl-cap: "Summary table of the cleaned dataset"
 #| warning: false
 
 a <- head(cleaned_data)
@@ -86,11 +86,11 @@ By segmenting the data by season and team, I was able to conduct a detailed exam
 
 ## Variables of interest
 
-In this study, our focus is solely on win counts and three-point statistics. With this objective in mind, our key variables of interest include Games Played (**GP**), Wins (**W**), Losses (**L**), Three-Pointers Made per game (**3PM**), Three-Pointers Attempted per game (3PA), and Three-Point Shooting Percentage (**3P%**). Our modeling approach will specifically incorporate Wins (**W**) and **3PM** to explore their relationship.
+In this study, our focus is solely on win counts and three-point statistics. With this objective in mind, our key variables of interest include Games Played (**GP**), Wins (**W**), Losses (**L**), Three-Pointers Made per game (**3PM**), Three-Pointers Attempted per game (**3PA**), and Three-Point Shooting Percentage (**3P%**). Our modeling approach will specifically incorporate Wins (**W**) and **3PM** to explore their relationship.
 
 We've deliberately opted for **3PM** over **3PA** and **3P%** for several reasons. **3PM** serves as a accurate metric, capturing a team's volume of successful three-point shots with reasonable efficiency. Unlike **3PA**, which might bias the model towards teams overly reliant on three-point attempts irrespective of their success rate, **3PM** provides a balanced representation of both volume and efficiency in three-point shooting. Similarly, **3P%** could skew the analysis towards teams with lower volumes of three-point attempts, overlooking the broader spectrum of team performance.
 
-By prioritizing **3PM** alongside Wins, our model aims to uncover insights into the impact of three-point scoring on overall team success while mitigating potential biases associated with alternative metrics. This strategic selection ensures a throrough exploration of the relationship between three-point performance and winning outcomes in NBA games.
+By prioritizing **3PM** alongside Wins, our model aims to uncover insights into the impact of three-point scoring on overall team success while mitigating potential biases associated with alternative metrics. This strategic selection ensures a detailed exploration of the relationship between three-point performance and winning outcomes in NBA games.
 
 # Model {#sec-model}
 
@@ -160,7 +160,7 @@ Overall, based on these estimates, it appears that there is a positive associati
 ```{r}
 #| echo: false
 #| label: fig-2
-#| fig-cap: "Scatterplot depicting the **Wins** vs the **3 Points Made** per game"
+#| fig-cap: "Scatterplot depicting the **Wins** vs the **3 Points Made** per game by all teams across the seasons 2014-15 to 2022-23"
 #| warning: false
 ggplot(cleaned_data, aes(x = X3PM, y = W)) +
   geom_point(color = "orange") +
@@ -181,7 +181,7 @@ If we group our statistics by team (@cite-groupby), we can gain valuable insight
 #| echo: false
 #| eval: true
 #| label: tbl-3
-#| tbl-cap: "Table showing the win stats and 3 point stats grouped by the Team"
+#| tbl-cap: "Summary of Team statistics across seasons 2014-15 through 2022-23"
 #| warning: false
 
 a <- grouped_data
@@ -196,7 +196,7 @@ kable(sorted_table)
 #| echo: false
 #| eval: true
 #| label: fig-3
-#| fig-cap: "Graph showing the average 3 point shots made per game across all the seasons"
+#| fig-cap: "Visualization of Average 3-Pointers Made per Game Across NBA Seasons"
 #| warning: false
 
 team_colors <- c(
@@ -242,7 +242,7 @@ ggplot(grouped_data, aes(x = Average_3PM, y = reorder(TEAM, Average_3PM), fill =
 ```{r}
 #| echo: false
 #| label: fig-1
-#| fig-cap: "Graph depicting the **Average team wins** and **predicted team wins** vs **Average three point shots made** per game"
+#| fig-cap: "Relationship Between **Average Team Wins**, **Predicted Wins**, and **Average Three-Point Shots Made per Game**"
 #| warning: false
 # Calculate predicted wins
 predicted_wins <- fitted(nba_model2)
@@ -283,7 +283,7 @@ Furthermore, while our modeling approach accounted for various factors, includin
 
 ## Drawbacks of the 3 point revolution
 
-Although, this paper discusses the upside of the three point line, I feel it is important to also include it's drawbacks. An interesting example of this in the modern NBA is the 2017-18 Houston Rockets. The Houston Rockets' general manager was a huge fan of the three point shot and in the 2017-18 season built an entire roster around 3 point shooting (@cite-Rockets1). This team was a huge success in the regular season and they shot more 3 pointers than any other team in league history. What he failed to take into account was, that basketball isn't math. While the Rockets were the most successful regular season team with 65 wins (@cite-Rockets2), they matched up against the Golden State Warriors in the western conference finals of the playoffs. The series went to seven games, and in game 7, the Rockets essentially shot themselves out of the game. They went 7 for 49 from the arc as a team, which was a record for the worst 3 point shooting in NBA history. This team lived by the three and eventually would die by the three.
+Although this paper discusses the upside of the three point line, I feel it is important to also include its drawbacks. An interesting example of this in the modern NBA is the 2017-18 Houston Rockets. The Houston Rockets' general manager was a huge fan of the three point shot and in the 2017-18 season built an entire roster around 3 point shooting (@cite-Rockets1). This team was a huge success in the regular season and they shot more 3 pointers than any other team in league history. What he failed to take into account was, that basketball isn't math. While the Rockets were the most successful regular season team with 65 wins (@cite-Rockets2), they matched up against the Golden State Warriors in the western conference finals of the playoffs. The series went to seven games, and in game 7, the Rockets essentially shot themselves out of the game. They went 7 for 49 from the arc as a team, which was a record for the worst 3 point shooting in NBA history. This team lived by the three and eventually would die by the three.
 
 In essence, while the three-point shot remains a potent weapon in the modern NBA, its effectiveness is contingent upon an understanding of its role within a team's overall offensive strategy. As the Houston Rockets learned, basketball is not solely a game of statistics—factors such as matchup dynamics, defensive schemes, and clutch performances can influence outcomes in ways that transcend numerical analysis.
 
