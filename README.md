@@ -23,7 +23,8 @@ Parts of the datasheet were written using ChatGPT 3.5 and the entire chat histor
 
 1. The raw data was obtained from NBA.com from the regular season team stats for the seasons from 2014-15 to 2022-23 excluding the 2019-20 season
 2. Each of these tables was combined and then stored in raw_data.xlsx
-3. Run scripts/02-data_cleaning.R to generate cleaned data
-4. Run scripts/03-test_data.R to validate the cleaned data
-5. Run scripts/04-model.R to fit models
-6. Run outputs/paper/paper.qmd to generate the PDF of the paper
+3. Run scripts/01-download_data.R to generate raw_data2.xlsx
+4. Run scripts/02-data_cleaning.R to generate cleaned data
+5. Run scripts/03-test_data.R to validate the cleaned data
+6. Run scripts/04-model.R to fit models
+7. Run outputs/paper/paper.qmd to generate the PDF of the paper
