@@ -17,3 +17,12 @@ The repo is structured as:
 ## Statement on LLM usage
 
 Parts of the datasheet were written using ChatGPT 3.5 and the entire chat history can be found in other/llm/usage.txt
+
+## How to Run
+
+1. The raw data was obtained from NBA.com from the regular season team stats for the seasons from 2014-15 to 2022-23 excluding the 2019-20 season
+2. Each of these tables was combined and then stored in raw_data.xlsx
+3. Run scripts/02-data_cleaning.R to generate cleaned data
+4. Run scripts/03-test_data.R to validate the cleaned data
+5. Run scripts/04-model.R to fit models
+6. Run outputs/paper/paper.qmd to generate the PDF of the paper
